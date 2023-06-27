@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Twitter 授权内容</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            list-style: none;
+            text-decoration: none;
+            outline: none;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            font-size: 14px;
+            background-color: #f9f9f9;
+            height: 100%;
+        }
+
+        .wrapper {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 310px;
+            width: 30%;
+        }
+
+        .form {
+            text-align: center;
+            margin-bottom: 15px;
+            background-color: #fff;
+            border: 1px solid #d8dee2;
+            border-radius: 5px;
+            padding: 20px;
+        }
+
+        .input_field {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #24292e;
+        }
+
+        .input {
+            width: 100%;
+            background: #fff;
+            border: 1px solid #d1d5da;
+            box-shadow: inset 0 1px 2px rgba(27, 31, 35, 0.075);
+            border-radius: 3px;
+            color: #24292e;
+            font-size: 16px;
+            line-height: 20px;
+            min-height: 34px;
+            padding: 6px 8px;
+            font-family: Consolas, monospace;
+        }
+
+        .input:focus {
+            border-color: #2188ff;
+            box-shadow: inset 0 1px 2px rgba(27, 31, 35, 0.075), 0 0 0 2.5px rgba(3, 102, 214, 0.3);
+        }
+
+        .sign_btn {
+            background-color: #28a745;
+            border: 1px solid rgba(27, 31, 35, 0.2);
+            width: 100%;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 2px;
+        }
+
+        .sign_btn:disabled {
+            background-color: #f9f9f9;
+            color: #56595b;
+        }
+
+        .sign_btn:not(:disabled):hover {
+            background-color: #279f43;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="form">
+            <div class="input_field">
+                <label>复制下面内容</label>
+                <textarea id="token" class="input" readonly></textarea>
+            </div>
+            <div class="btn">
+                <button class="sign_btn" onclick="copyQuery()">复制</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const query = JSON.stringify(Object.fromEntries(urlParams.entries()), null, 4);
+
+        const token = document.getElementById('token');
+        token.value = query;
+        token.style.height = `${token.scrollHeight + 5}px`;
+
+        function copyQuery() {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(token.value);
+            } else {
+                token.select();
+                document.execCommand('copy');
+            }
+            const button = document.getElementsByClassName('sign_btn')[0]
+            button.disabled = !button.disabled;
+            button.innerText = '已复制';
+        }
+    </script>
+</body>
+
+</html>
